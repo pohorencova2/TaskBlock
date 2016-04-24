@@ -53,20 +53,50 @@ echo '</h3>';
 		Boards <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" style="padding: 15px;min-width: 100px;">
-			<?php  
+			<?php 
+			echo '<table>';
+				
+			$arrlength = count($board);	
+			for($x = 0; $x < $arrlength; $x++) {
 			$data = array(
 				'name'          => 'button',
 				'type'            => 'submit',        
 				'class'=> 'btn btn-success  btn-block '        
 			);
-			$arrlength = count($board);	
+			
+			echo '<tr>';
 			echo form_open('board/board_show'); 
-			for($x = 0; $x < $arrlength; $x++) {
-				$data['value'] = $board[$x]['title'];		
-				echo form_submit($data); 				
-				echo '<br>';				
-			}		
+			
+				$data['value'] = $board[$x]['title'];	
+				echo '<td>';	
+				echo form_submit($data);
+				echo '</td>';	 				
+				//echo '<br>';				
+					
 			echo form_close(); 	
+			
+			echo form_open(''); 
+			
+			$data = array(
+				'name'          => 'button_task',
+				'type'            => 'submit',        
+				'class'=> 'btn btn-xs  btn-primary '        
+			);
+			
+				$data['value'] = $board[$x]['title'];	
+				echo '<td>';				
+				echo form_button($data, '<span class="glyphicon glyphicon-remove"></span>','style="color:black;background-color:white"');	; 				
+				echo '</td>';						
+				echo form_close();				
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td>';
+				echo '<br>';
+				echo '</td>';				
+				echo '</tr>';
+								
+			}
+			echo '</table>';
 			
 			
 			
