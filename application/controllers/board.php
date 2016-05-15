@@ -2,113 +2,86 @@
 
 class Board extends CI_Controller{
 
-	public $info="a";
-
-	
-	
-
-	function __construct()
-	{
-		parent::__construct();
-		$this->load->model('auth_model');
+	function __construct(){
+		parent::__construct();		
 		$this->load->model('board_model');
 		$this->info = $this->session->userdata;
-		$this->info['email'] = $this->session->userdata('e-mail');		
-		$this->info['board'] = $this->board_model->board_title($this->session->userdata('id_user'));	
-		$this->info['description'] =  $this->session->userdata('description');
-		$this->info['title'] =  $this->session->userdata('title');	
-		$this->info['task'] =  $this->session->userdata('task');
-		
-		
-		
-			
-		
-		
 	}
 	
-	
-	function board_show(){
-		$result = $this->board_model->board_info($this->input->post("button"));
-		$this->info['description'] = $result->description;	
-		$this->info['title'] = $this->input->post("button");
-		
-		$data['title'] = $this->input->post("button");      //SAVE IN SESSION
-		$data['id_board'] = $result->id_board;	
-		$data['description']  = $result->description;
-		$this->session->set_userdata($data);				
-		
-		$this->tasks_show($data['id_board']);		
-	}
-	
-	
-	function tasks_show($board){
-	     
-		 $data['task'] = $this->board_model->all_tasks($board);
-		 //print_r($data['task']);
-		 $this->session->set_userdata($data);
-		// print_r($this->session->userdata('task'));
-		 //print_r($this->board_model->all_tasks($board));
-		 //$this->load->view('welcome_view',$this->info);
-		redirect('board/welcome_board');
-	
-	}
-	
-	
-	
-
-	function welcome_board(){			
-		$this->load->view('welcome_view',$this->info);	
-	}
-	
-	function create_board(){
+	//Form for create board, insert data into db - title, description, user
+	function create_board(){          
 		$this->board_model->insert_board($this->session->userdata('id_user'));		
-		redirect('board/welcome_board');		
-	
+		redirect('show/welcome_board');	
 	}
 	
-	function create_task(){
-		$this->board_model->insert_task($this->session->userdata('id_board'),$this->session->userdata('id_user'));			
-		$this->tasks_show($this->session->userdata('id_board'));	
-		//$this->load->view('welcome_view',$this->info);
-		//redirect('board/welcome_board');
-	
-	
-	
-	
-	
-	//print_r($this->session->userdata('id_board'));
-	
-	
-	
-	}
-	
-	function delete_task(){
-		//print_r("delete");
-		$this->board_model->del_task($this->input->post("button_task"));
-		$this->tasks_show($this->session->userdata('id_board'));
-		//print_r($this->input->post("button_task"));
-	}
-	
-	function set_deadline(){
-		print_r("deadline");
-		print_r($this->input->post("button_task"));
-	}
-	
-	function set_check(){		
-		$this->board_model->check_task($this->input->post("button_task"));	
-		$this->tasks_show($this->session->userdata('id_board'));
-	}
-	
-	function do_task(){
-		$this->board_model->do_task($this->input->post("button_task"),$this->session->userdata('id_user'));	
-		$this->tasks_show($this->session->userdata('id_board'));
-	}
-	
-	
-	
+	//Delete board
 	function delete_board(){
+		//Is admin of board
 		
+		$team = $this->board_model->has_team($this->input->post("button_del_board"));
+		
+		
+		if ($team->team == 0){
+			$this->board_model->del_board($this->input->post("button_del_board"));
+		}
+		else{
+			$owner = $this->board_model->get_owner($team->team);
+			if ($owner->owner == $this->session->userdata('id_user')){
+			    //find and delete board in team
+			    $inf = $this->board_model->board_info($this->input->post("button_del_board"));
+				$this->board_model->del_team_board($team->team,$inf->title);
+				
+				//delete my board
+				$this->board_model->del_board($this->input->post("button_del_board"));
+				
+				
+			}
+			else{
+				//DOPISAT NIE SI ADMIN NEMOZES MAZAT TUTO BOARD		
+			}
+		}		
+	
+		redirect('show/welcome_board');
+	
 	}
+	 
+	//Assign board to team 
+	function assign_team(){
+		$this->board_model->assign($this->session->userdata('id_board'));
+		//find users that are in team and add them board
+		$dataU = $this->board_model->team_users();   //users
+		$dataB = $this->board_model->board_team_info($this->session->userdata('id_board'));  //board
+		print_r($dataB);
+		//add board to members
+		$length = count($dataU);
+		for ($i=0;$i<$length;$i++){
+			$dataB['user'] = $dataU[$i]['member'];
+			//print_r($dataB[$i]);
+			$this->board_model->insert_team_board($dataB);
+		}		
+		
+	redirect('show/welcome_board');	
+	}
+	
+	
+	
+	//assign board to member  OKULIARE
+	function assign_member(){
+		$data = $this->board_model->team_boards();
+		$length = count($data);
+		for ($i=0;$i<$length;$i++){
+			$data[$i]['user'] = $_POST['new_member'];
+			$this->board_model->insert_team_board($data[$i]);
+		}
+		// add to table members 
+		$this->board_model->team_member();
+		
+		redirect('show/welcome_board');	
+		
+		
+	
+	}
+
 
 
 }

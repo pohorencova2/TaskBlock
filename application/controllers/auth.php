@@ -66,7 +66,7 @@ class Auth extends CI_Controller {
 				$data['logged_in'] = true;
 				$this->session->set_userdata($data);
 				
-				redirect('board/welcome_board');
+				redirect('show/welcome_board');
 			}
 			else{
 				echo 'nie si zaregistrovany';
