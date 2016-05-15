@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="<?php echo base_url("assets/creative.css"); ?>" />
 	<link rel="stylesheet" href="<?php echo base_url("assets/font-awesome/css/font-awesome.min.css"); ?>" />	
 	<script src="<?php echo base_url("assets/js/bootstrap.min.js"); ?>"></script>
+	
 	<title>Registration</title>
 </head>
 <body>

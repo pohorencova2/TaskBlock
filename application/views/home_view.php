@@ -19,12 +19,13 @@
        
         <div class="container text-center" style="padding-bottom:50px;padding-top:50px">
             
-                <h1> TaskBlock  </h1>
+                <h1> TaskBlock  </h1> 
             
-                <hr>
+                <hr><br><br>
             <h3 class="section-heading">Does your team need administrative control? TaskBlock is the best way to organize tasks!</h3>
 			<?php
-				echo form_open('auth/login');      //az pri stlaceni tlacidla ma hodi na login			
+				echo form_open('auth/login');      //az pri stlaceni tlacidla ma hodi na login	
+				echo '<br>';
 				echo form_submit('submit','Log in!','class="btn btn-primary btn-xl page-scroll"');
 				echo form_close(); 
 			?>

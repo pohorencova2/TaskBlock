@@ -17,73 +17,63 @@
 
 
 
-<?php
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
 
-echo '<h3 style="color:white;padding-left:10px">';
-
-echo $name;
-echo " ";
-echo $surname;
-echo '</h3>';
-
-
-
-//echo $email;
-
-
-
-
-
-?>
-	<!-- LOG OUT -->	
-	<?php
-		echo form_open('auth/logout');      			
-		$data = array(    
-			'type' => 'submit',
-			'class' => 'btn btn-success btn-lg'
-			
-		);		
-		echo form_button($data, '<span class="glyphicon glyphicon-log-out"></span>','style="background-color:#10a615;position:absolute;right:0;top:0"');
-		echo form_close(); 		
-	?>
-	
-	<!-- SHOW BOARD ----------------------------------------------->
-	<div class="btn-group" style="padding-left:10px">
-		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Boards <span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" style="padding: 15px;min-width: 100px;">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-weight:bold;color:white">Boards<span class="caret"></span></a>
+          <ul class="dropdown-menu" style="padding: 15px;min-width: 100px;">
 			<?php 
 			echo '<table>';
 				
 			$arrlength = count($board);	
+			
 			for($x = 0; $x < $arrlength; $x++) {
+			 
+			
+			
 			$data = array(
 				'name'          => 'button',
 				'type'            => 'submit',        
-				'class'=> 'btn btn-success  btn-block '        
+				'class'=> 'btn btn-success  btn-block ',
+				'style'=> 'color:white;background-color:#003b46;'
+				
 			);
 			
 			echo '<tr>';
-			echo form_open('board/board_show'); 
+			echo form_open('show/board_show'); 
 			
 				$data['value'] = $board[$x]['title'];	
 				echo '<td>';	
 				echo form_submit($data);
 				echo '</td>';	 				
-				//echo '<br>';				
+							
 					
 			echo form_close(); 	
 			
-			echo form_open(''); 
+			echo form_open('board/delete_board'); 
 			
 			$data = array(
-				'name'          => 'button_task',
+				'name'          => 'button_del_board',
 				'type'            => 'submit',        
 				'class'=> 'btn btn-xs  btn-primary '        
 			);
 			
-				$data['value'] = $board[$x]['title'];	
+				$data['value'] = $board[$x]['id_board'];	
 				echo '<td>';				
 				echo form_button($data, '<span class="glyphicon glyphicon-remove"></span>','style="color:black;background-color:white"');	; 				
 				echo '</td>';						
@@ -98,45 +88,324 @@ echo '</h3>';
 			}
 			echo '</table>';
 			
-			
-			
-
-
-
-
-
-
-
-
-
-
-
-
-			
 			?> 
-		</ul>
-   </div>
-  <!---------------------------------------------------------->
-  
-  
+          </ul>
+        </li>
+		
+		<!--ALL TEAMS  -->
+		<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-weight:bold;color:white">Teams<span class="caret"></span></a>
+          <ul class="dropdown-menu" style="padding: 15px;min-width: 100px;">
+		  
+			<?php 
+			echo '<table>';
+				
+			$arrlength = count($my_team);	
+			$data = array(							
+				'style' => 'color:#ee4b28;' 
+			);
+			
+			echo form_label("My teams:", 'my_teams',$data);	
+			
+			for($x = 0; $x < $arrlength; $x++) {
+			
+			
+			$data = array(
+				'name'          => 'my_teams',
+				'type'            => 'submit',        
+				'class'=> 'btn btn-success  btn-block ',
+				'style' => 'color:white;background-color:#003b46;' 
+			);
+			
+			echo '<tr>';
+			
+			echo form_open('show/board_show');  //ZMENIT """"""""""""""""""""""""
+			
+				$data['value'] = $my_team[$x]['name'];	
+				echo '<td>';	
+				echo form_submit($data);
+				echo '</td>';	 				
+							
+					
+			echo form_close(); 	
+			
+			
+			echo form_open('team/delete_team');  
+			
+			$data = array(
+				'name'          => 'button_del_team',
+				'type'            => 'submit',        
+				'class'=> 'btn btn-xs  btn-primary '        
+			);
+			
+				$data['value'] = $my_team[$x]['id_team'];	
+				echo '<td>';				
+				echo form_button($data, '<span class="glyphicon glyphicon-remove"></span>','style="color:black;background-color:white"');	; 				
+				echo '</td>';						
+				echo form_close();				
+				echo '</tr>';
+				echo '<tr>';
+				echo '<td>';
+				echo '<br>';
+				echo '</td>';				
+				echo '</tr>';
+								
+			}			
+			echo '</table>';
+			echo '<li role="separator" class="divider"></li>';
+			$data = array(							
+				'style' => 'color:#ee4b28;' 
+			);
+			echo form_label("Member in:", 'other_teams',$data);
+			$arrlength = count($other_team);	
+			for($x = 0; $x < $arrlength; $x++) {
+			
+			
+			$data = array(
+				'name'          => 'other_teams',
+				'type'            => 'submit',        
+				'class'=> 'btn btn-success  btn-block ', 
+				'style' => 'color:white;background-color:#003b46;'
+			);
+			
+			
+			echo form_open('show/board_show');  //ZMENIT """"""""""""""""""""""""			
+				$data['value'] = $other_team[$x]['name'];					
+			echo form_submit($data);					
+			echo form_close();  
+			echo "<br>";
+			}
+		
+			
+			?>   
+		  
+            
+          </ul>
+        </li>		
+		
+		
+		<li>
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-weight:bold;color:white;font-size:20px"><span class="fa fa-plus-square fa-lg" ></span></a>
+        <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+		
+		
+			<?php  			
+			echo form_open('board/create_board'); 
+			echo form_input(array(
+			  'name' => 'title',
+			  'value' => '',
+			  'placeholder' => 'Title',
+			  'class'  => 'form-control',
+			));				
+			echo '<br>';
+			echo form_input(array(
+			  'name' => 'description',
+			  'value' => '',
+			  'placeholder' => 'Description',
+			  'class'  => 'form-control',
+			));	
+			//echo form_input('description', 'Description','class="form-control"');
+			echo '<br>';		
+			echo form_submit(array(
+			  'name' => 'submit',
+			  'value' => 'Create board',
+			  'class'=>'btn btn-success',
+			  'style'=>'background-color:#ee4b28'			 
+			));	
+			
+			echo form_close(); 	
+			?> 	
+      </ul>	  
+	  </li>		
+      </ul>
+	    
+	
+	  
+	  
+     
+      <ul class="nav navbar-nav navbar-right">
+       
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-weight:bold;color:white"><?php echo $name . " " . $surname; ?><span class="caret"></span></a>
+          <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+		  
+		  
+           		
+			<?php  		
+			echo form_open('team/create_team'); 
+			echo form_input(array(
+			  'name' => 'team_name',
+			  'value' => '',
+			  'placeholder' => 'Name of team',
+			  'class'  => 'form-control',
+			));	
+			//echo form_input('team_name', 'Name of team','class="form-control"');
+			echo '<br>';
+			echo form_input(array(
+			  'name' => 'team_description',
+			  'value' => '',
+			  'placeholder' => 'Description',
+			  'class'  => 'form-control',
+			));	
+			//echo form_input('team_description', 'Description','class="form-control"');
+			echo '<br>';	
+			echo form_submit(array(
+			  'name' => 'submit',
+			  'value' => 'Create team',
+			  'class'=>'btn btn-success',
+			  'style'=>'background-color:#ee4b28'			 
+			));	
+			
+			//echo form_submit('submit','create','class="btn btn-success"');
+			echo form_close();
+			echo '<li role="separator" class="divider"></li>';	
+			echo '<br>';
+			?>  
+			
+			<?php  	
+			
+			echo form_open('board/assign_member'); 
+			echo form_input(array(
+			  'name' => 'choosen_team2',
+			  'value' => '',
+			  'placeholder' => 'Name of team',
+			  'class'  => 'form-control',
+			));	
+			//echo form_input('choosen_team2', 'Name of team','class="form-control"');
+			echo '<br>';
+			echo form_input(array(
+			  'name' => 'new_member',
+			  'value' => '',
+			  'placeholder' => 'Name of user',
+			  'class'  => 'form-control',
+			));	
+			//echo form_input('new_member', 'Name of user assign to team','class="form-control"');			
+			echo '<br>';		
+			echo form_submit(array(
+			  'name' => 'submit',
+			  'value' => 'Add member',
+			  'class'=>'btn btn-success',
+			  'style'=>'background-color:#ee4b28;'			 
+			));		
+			
+			echo form_close(); 
+			?> 
+		
+			
+			
+				
+			
+			
+			
+				
+			
+			
+			
+            
+          </ul>
+        </li>
+		
+		
+		
+		
+		 
+	
+		 <?php
+		 echo '<li><a href="">';
+		 echo form_open('auth/logout');      			
+		$data = array(    
+			'type' => 'submit',
+			'class' => 'btn btn-success '
+			
+		);	
+		
+		echo form_button($data, '<span class="glyphicon glyphicon-log-out"></span>','style="background-color:#ee4b28"');
+	
+		echo form_close(); 
+			echo '</a></li>';
+			?>
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+
+
+
+
 	
 	
 	
 	
-	<!-- CREATE BOARD ----------------------------------------->
+	
+	<?php $this->load->view('board_view'); ?>
+	
+	
+	
+	
+	
+	
+	
+	<!-- CREATE TEAM ----------------------------------------
 	<div class="btn-group" >
 		<button type="button" class="btn btn-success btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		<span class="glyphicon glyphicon-blackboard"></span>
+		<span class="glyphicon glyphicon-user"></span>
 		</button>
 		<ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-			<?php  
-			
-			echo form_open('board/create_board'); 
-			echo form_input('title', 'Title','class="form-control"');
+			<?php  		
+			/*echo form_open('team/create_team'); 
+			echo form_input('team_name', 'Name of team','class="form-control"');
 			echo '<br>';
-			echo form_input('description', 'Description','class="form-control"');
+			echo form_input('team_description', 'Description','class="form-control"');
 			echo '<br>';					
 			echo form_submit('submit','create','class="btn btn-success"');
+			echo form_close(); 	*/
+			?>  
+		</ul>
+   </div>
+   <!---------------------------------------------------------->
+	
+	
+	
+	 <!-- ASSIGN BOARD TO TEAM ----------------------------------------->
+	<div class="btn-group" >
+		<button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#003b46;">
+		<span class="fa fa-users fa-lg" ></span>
+		</button>
+		<ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+			<?php  			
+			echo form_open('board/assign_team'); 
+			
+		
+			
+			echo form_input(array(
+			  'name' => 'choosen_team',
+			  'value' => '',
+			  'placeholder' => 'Name of team',
+			  'class'  => 'form-control',
+			));
+			//echo form_input('choosen_team', 'Name of team assign to board','class="form-control"');
+			
+			echo '<br>';	
+			echo form_submit(array(
+			  'name' => 'submit',
+			  'value' => 'Assign to board',
+			  'class'=>'btn btn-success',
+			  'style'=>'background-color:#ee4b28'		 
+			 
+			));		
+			
 			echo form_close(); 	
 			?> 
 		</ul>
@@ -144,198 +413,40 @@ echo '</h3>';
    <!---------------------------------------------------------->
    
    
-  
-     
-   
-  
-
-
-  
- 
- 
- 
- 
- 
-   <!-- CREATE TASK----------------------------------------------->
-<div class="btn-group">
-		<button type="button" class="btn btn-success btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		<span class="glyphicon glyphicon-tasks"></span>
+    <!-- ASSIGN USER TO TEAM ----------------------------------------
+	<div class="btn-group" >
+		<button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span class="glyphicon glyphicon-sunglasses"></span>
 		</button>
 		<ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-			<?php  
-			
-			echo form_open('board/create_task'); 
-			echo form_input('title_task', 'Title','class="form-control"');
-			echo '<br>';
-			echo form_input('description_task', 'Description','class="form-control"');
+			<?php  			
+			/*echo form_open('board/assign_member'); 
+			echo form_input('choosen_team2', 'Name of team','class="form-control"');
+			echo '<br>';	
+			echo form_input('new_member', 'Name of user assign to team','class="form-control"');			
 			echo '<br>';					
-			echo form_submit('submit','add','class="btn btn-success"');
-			echo form_close(); 	
+			echo form_submit('submit','create','class="btn btn-success"');
+			echo form_close(); 	*/
 			?> 
 		</ul>
    </div>
- <!---------------------------------------------------------->
-
-
-
-  
-  
-   
-
-
-</div>
-
-
-
- 
- 
- 				
-
-<br>
-<!-- DESCRIPTION ----------------------------------------------->
-<div class="btn-group">
-
-		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:30px;background-color:#41c074;">
-		 <span class="glyphicon glyphicon-blackboard"></span>
-		 <?php echo "  "; 
-		 echo $title;?>
-		</button>
-		
-		<ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-			<?php  
-			echo form_label($description, 'description');			
-			?> 
-		</ul>
-   </div>
- <!---------------------------------------------------------->
-
-
-<br>
-<br>
-
-
-<!-- SHOW TASKS ----------------------------------------------->
-
-
-<?php 
-
-	$arrlength = count($task);	
-	if ($task != ""){
-			
-			for($x = 0; $x < $arrlength; $x++) {
-
- echo '<div class="col-lg-2">
-         <div class="panel panel-primary" style="border-color:#80c48d">
-             <div class="panel-heading" style="background-color:#10a615;border-color:#80c48d";>
-                 <h5 class="panel-title" >'; 
-					echo $task[$x]['name']; 
-					echo " ";
-					
-					
-				if ($task[$x]['executed'] == 1){
-					 echo'<span class="glyphicon glyphicon-check" style="color:red"></span></h5>';
-				
-				};
-				
-				if ($task[$x]['do_task'] != 0){
-					 echo'<span class="glyphicon glyphicon-user" style="color:black"></span></h5>';
-				
-				};
-				
-			
-             echo '</div>
-            <div class="panel-body" >';
-			
-				$data = array(
-				'name'          => 'button_task',
-				'type'            => 'submit',        
-				'class'=> 'btn btn-xs  btn-primary '        
-			);
-				
-				echo form_open('board/delete_task'); 			
-				$data['value'] = $task[$x]['id_task'];	
-				echo '<table><tr>';
-				echo '<td>';
-				echo form_button($data, '<span class="glyphicon glyphicon-remove"></span>','style="background-color:#e64017"');	
-				echo '</td>';				
-				echo form_close(); 	
-				
-				
-				
-				$data = array(
-				'name'          => 'button_task',
-				'type'            => 'submit',        
-				'class'=> 'btn btn-xs btn-hover btn-danger'        
-			);
-				
-				echo form_open('board/set_deadline'); 			
-				$data['value'] = $task[$x]['id_task'];
-				echo '<td>';
-				echo form_button($data, '<span class="glyphicon glyphicon-time"></span>','style="background-color:#41b9b1"');	
-				echo '</td>';				
-				echo form_close(); 
-				echo '</td>';
-				
-				
-				$data = array(
-				'name'          => 'button_task',
-				'type'            => 'submit',        
-				'class'=> 'btn btn-xs btn-hover btn-danger'        
-			);
-				
-				echo form_open('board/set_check'); 			
-				$data['value'] = $task[$x]['id_task'];
-				echo '<td>';
-				echo form_button($data, '<span class="glyphicon glyphicon-check"></span>','style="background-color:#35e73b"');	
-				echo '</td>';				
-				echo form_close(); 
-				echo '</td>';
-				
-				
-				
-				$data = array(
-				'name'          => 'button_task',
-				'type'            => 'submit',        
-				'class'=> 'btn btn-xs btn-hover btn-danger'        
-			);
-				
-				echo form_open('board/do_task'); 			
-				$data['value'] = $task[$x]['id_task'];
-				echo '<td>';
-				echo form_button($data, '<span class="glyphicon glyphicon-user"></span>','style="background-color:#070108"');	
-				echo '</td>';				
-				echo form_close(); 
-				echo '</td>';
-				
-				
-				
-				
-			
-			
-             
-               
-			echo '</tr></table>								
-	 			<br><br>';
-			echo $task[$x]['description'];
-			echo '			
-           </div>
-        </div>
-     </div>
- </div>';
-	}  }
-?> 
-
-
- <!---------------------------------------------------------->
-
-
-
-
+   <!---------------------------------------------------------->
+       
+	
+	
+	
+	
+	
+	<?php $this->load->view('task_view'); ?>
+	
+	
 	 
+		
+		
+	</div>
 
 
-
-
+	<footer style="position:absolute;bottom:0;width:100%;text-align:center"><h1 style="opacity:0.5">TaskBlock<h1> </footer>
 
 </body>
 

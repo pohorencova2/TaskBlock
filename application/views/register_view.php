@@ -2,29 +2,106 @@
 <div class="reg" style="text-align:center;margin-top:20px">
 <?php $this->load->view('header'); ?>
 
-      REGISTRATION<br>
+	<div class="container">
+    <div class="row">
+        <div class="col-md-offset-5 col-md-3">
+            <div class="form-login">
+            <h4 style="font-family: Papyrus, fantasy;font-weight:bold;font-size:25px">Create account:</h4>
+			
+			
 	<?php 
-		   
-		echo form_open('auth/register');      //az pri stlaceni tlacidla ma hodi na add
-		echo form_input('nickname',set_value('nickname','Nickname')); echo '<br><br>';    //set_value - ak nieco vyplni do policka a potom spravi chybu, tak aby nemusel znova vyplnat, 'Meno' - default, ak tam nic nezada
-		echo form_input('password',set_value('password','Password'));  echo '<br><br>';
-		echo form_input('password2',set_value('password2','Password2'));  echo '<br><br>';
-		echo form_input('name',set_value('name','Name'));  echo '<br><br>';
-		echo form_input('surname',set_value('surname','Surname'));  echo '<br><br>';
-		echo form_input('e-mail',set_value('e-mail','E-mail'));  echo '<br><br>';		
-		echo form_submit('submit','sign in','class="btn btn-primary btn-xl page-scroll"');
-		echo form_close();
-	
-	
+		echo '<br>';   
+		echo form_open('auth/register');      
+		echo form_input(array(
+		  'name' => 'nickname',
+		  'value' => '',
+		  'placeholder' => 'Username',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>';    
+		echo form_input(array(
+		  'name' => 'password',
+		  'value' => '',
+		  'placeholder' => 'Password',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>'; 
+		echo form_input(array(
+		  'name' => 'password2',
+		  'value' => '',
+		  'placeholder' => 'Password2',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>'; 
+		echo form_input(array(
+		  'name' => 'name',
+		  'value' => '',
+		  'placeholder' => 'Name',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>'; 
+		echo form_input(array(
+		  'name' => 'surname',
+		  'value' => '',
+		  'placeholder' => 'Surname',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>'; 
+		echo form_input(array(
+		  'name' => 'e-mail',
+		  'value' => '',
+		  'placeholder' => 'E-mail',
+		  'class'  => 'form-control input-sm chat-input',
+		));
+		echo '<br>'; 
+		
 	?>
+		<div class="wrapper">
+			<span class="group-btn">
+	<?php 			
+		echo form_submit('submit','Sign in','class="btn btn-primary btn-xl"');
+		echo form_close();	
+	?>    
+
+		
 	
 	<div class="errors">
 		<?= validation_errors() //vypise errors
 		?>  
-	
-	
-	
 	</div>
+
+
+
+
+
+
+
+
+	
+               
+               
+            </span>
+            </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+     
+	
+	<footer style="position:absolute;bottom:0;width:100%;"><h1 style="opacity:0.2">TaskBlock<h1> </footer>
 	
 <?php $this->load->view('footer'); ?>
 </div>
