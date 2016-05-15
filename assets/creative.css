@@ -14,18 +14,18 @@ body {
     font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;
 }
 
-hr {
+hr {   /*lines*/
     max-width: 50px;
-    border-color: #b74cbf;
+    border-color: #ee4b28;
     border-width: 3px;
 }
 
-hr.light {
+hr.light {   /*line*/
     border-color: #fff;
 }
 
 a {
-    color:  #b74cbf;    
+    color:  #ee4b28;    
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -36,7 +36,15 @@ a:focus {
     color: #eb3812;
 }
 
-h1,
+h1{
+/*font-family: 'Rockwell Extra Bold', 'Rockwell Bold', monospace;*/
+/*font-family: 'Brush Script MT', cursive;*/
+font-family: Papyrus, fantasy;
+font-size: 50px;
+
+font-weight: bold;
+}
+
 h2,
 h3,
 h4,
@@ -51,13 +59,13 @@ p {
     line-height: 1.5;
 }
 
-.bg-primary {
-    background-color: #41c074;
+.bg-primary {   /*we have got what you need*/
+    background-color: #128277;
 }
 
-.bg-dark {
+.bg-dark {  /*free download*/
     color: #fff;
-    background-color: #b74cbf;
+    background-color: #128277;
 }
 
 .text-faded {
@@ -110,7 +118,7 @@ aside {
 }
 
 .text-primary {   /*service box*/
-    color:  #b74cbf;
+    color:  #ee4b28;   /*00293c*/
 }
 
 .no-gutter > [class*=col-] {
@@ -121,7 +129,7 @@ aside {
 .btn-default {
     border-color: #fff;
     color: #222;
-    background-color: #fff;
+    background-color: #fff; /*buttons*/
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -174,7 +182,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary {
     border-color: #f05f40;
     color: #fff;
-    background-color:  #b74cbf;  /*button log in*/
+    background-color:  #ee4b28;  /*button log in*/
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -188,7 +196,7 @@ fieldset[disabled] .btn-default.active {
 .open > .dropdown-toggle.btn-primary {
     border-color: #ed431f;
     color: #fff;
-    background-color: #ee4b28;
+    background-color: #ffa577;  /*log in hover*/
 }
 
 .btn-primary:active,
@@ -261,3 +269,4 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #222;
 }
+

@@ -1,5 +1,5 @@
 body{
-background-color:#41c074;    
+background-color:#5bc8ac;         /*#41c074,#20948b,#5bc8ac*/;   
 
 }
 
@@ -7,5 +7,14 @@ background-color:#41c074;
     font-family: myFont;
     src: url(fonts/glyphicons-halflings-regular.woff);
 }
+
+.navbar {
+
+background-color:#003b46;
+
+}
+
+
+
 
 
